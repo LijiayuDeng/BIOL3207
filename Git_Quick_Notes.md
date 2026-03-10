@@ -143,7 +143,121 @@ git push -u origin main
 git push
 ```
 
-## 4. 哪些文件通常不需要提交
+## 4. 分支、fork、clone、pull 分别是什么
+
+这四个概念很容易混，但用途不一样：
+
+- `branch`：同一个仓库里开一条新的开发线
+- `fork`：把别人的 GitHub 仓库复制到你自己的 GitHub 账号下
+- `clone`：把远程仓库下载到本地
+- `pull`：把远程仓库的最新更新拉到本地
+
+### 4.1 如何创建分支
+
+分支适合你想试改动，但不想直接改 `main`。
+
+查看分支：
+
+```bash
+git branch
+```
+
+创建新分支：
+
+```bash
+git branch notes-update
+```
+
+创建并切换到新分支：
+
+```bash
+git switch -c notes-update
+```
+
+如果你的 Git 版本较旧，也可以用：
+
+```bash
+git checkout -b notes-update
+```
+
+切回主分支：
+
+```bash
+git switch main
+```
+
+把新分支推到 GitHub：
+
+```bash
+git push -u origin notes-update
+```
+
+### 4.2 fork 是什么
+
+`fork` 不是本地 Git 命令，它是在 GitHub 网页上操作的。
+
+适合场景：
+
+- 你想修改别人的仓库
+- 你没有原仓库的写权限
+- 你想在自己账号下保留一份副本
+
+操作方式：
+
+1. 打开对方的 GitHub 仓库页面
+2. 点击右上角 `Fork`
+3. GitHub 会在你的账号下复制一个仓库
+
+然后你再把你自己的 fork 拉到本地：
+
+```bash
+git clone 你的fork地址
+```
+
+### 4.3 如何从远程把仓库拉到本地
+
+如果你本地还没有这个仓库，用：
+
+```bash
+git clone 仓库地址
+```
+
+例如：
+
+```bash
+git clone https://github.com/LijiayuDeng/BIOL3207.git
+```
+
+这会在当前目录下创建一个 `BIOL3207/` 文件夹。
+
+然后进入：
+
+```bash
+cd BIOL3207
+```
+
+### 4.4 如何把远程最新内容拉下来
+
+如果本地已经有这个仓库，想同步远程更新，用：
+
+```bash
+git pull
+```
+
+或者写得更明确一点：
+
+```bash
+git pull origin main
+```
+
+### 4.5 什么时候用哪一个
+
+- 想在自己仓库里尝试新改动：`branch`
+- 想复制别人的 GitHub 仓库到自己账号：`fork`
+- 想第一次下载远程仓库到本地：`clone`
+- 想更新本地仓库：`pull`
+
+## 5. 哪些文件通常不需要提交
 
 不是所有文件都应该进 Git。一般不建议提交这些内容：
 
@@ -170,7 +284,7 @@ git push
 - 如果 `renv.lock` 是为了记录 R 包环境，通常应该提交
 - 如果只是本地缓存或自动生成结果，通常不提交
 
-## 5. 不想提交某些文件，用什么命令
+## 6. 不想提交某些文件，用什么命令
 
 ### 5.1 用 `.gitignore` 永久忽略
 
@@ -253,7 +367,7 @@ git commit -m "Add Git notes"
 
 这样别的未跟踪文件不会进这次提交。
 
-## 6. 如果加错了，怎么撤回
+## 7. 如果加错了，怎么撤回
 
 ### 6.1 文件已经 `git add`，但还没 commit
 
@@ -291,7 +405,7 @@ git restore Git_Quick_Notes.md
 
 注意：这会丢掉该文件在工作区里的未提交修改，要谨慎。
 
-## 7. 每次提交前建议做什么
+## 8. 每次提交前建议做什么
 
 推荐你每次都按这个顺序：
 
@@ -309,7 +423,7 @@ git push
 - 把自动生成的文件混进去
 - 一次提交内容太乱
 
-## 8. 查看历史和远程状态
+## 9. 查看历史和远程状态
 
 ### 8.1 看提交历史
 
@@ -343,7 +457,7 @@ git status -sb
 
 通常表示本地和远程都已经关联。
 
-## 9. 适合你现在项目的做法
+## 10. 适合你现在项目的做法
 
 1. 提交前先看 `git status -sb`
 2. 尽量不要上来就 `git add .`，除非你非常确定目录干净
@@ -351,7 +465,7 @@ git status -sb
 4. 把 `.Rproj.user/`、日志、缓存、自动生成文件写入 `.gitignore`
 5. 保持 `BIOL3207` 只有一个主仓库，不要再让子目录里出现新的 `.git/`
 
-## 10. 常用命令速查
+## 11. 常用命令速查
 
 ```bash
 # 初始化仓库
@@ -382,8 +496,21 @@ git remote -v
 # 改分支名为 main
 git branch -m main
 
+# 创建并切换分支
+git switch -c 分支名
+
+# 切换分支
+git switch 分支名
+
 # 推送
 git push -u origin main
+
+# 克隆远程仓库
+git clone 仓库地址
+
+# 拉取远程更新
+git pull
+git pull origin main
 
 # 取消暂存
 git restore --staged 文件名
