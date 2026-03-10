@@ -176,6 +176,26 @@ git push
 
 如果某类文件以后都不想提交，最标准的方法是写进 `.gitignore`。
 
+先创建文件：
+
+```bash
+touch .gitignore
+```
+
+然后编辑它，把要忽略的规则写进去。
+
+例如可以用编辑器打开：
+
+```bash
+nano .gitignore
+```
+
+或者：
+
+```bash
+code .gitignore
+```
+
 例如：
 
 ```gitignore
@@ -190,6 +210,13 @@ git push
 
 - 以后这些文件不会出现在 `git status` 的未跟踪列表里
 - 适合忽略长期不需要版本控制的内容
+
+写完以后，把 `.gitignore` 本身提交到 Git：
+
+```bash
+git add .gitignore
+git commit -m "Add gitignore"
+```
 
 ### 5.2 如果文件已经被 Git 跟踪了
 
