@@ -253,3 +253,13 @@ steps in either females (r = 0.024, p = 0.467) or males (r = 0.038, p = 0.267)
 - Male gorillas walk more steps on average than females (8,205 vs 7,055)
 - This difference is statistically significant (t(1784) = -10.16, p < 0.001)
 - Effect size is medium (Cohen's d = 0.48), meaning the two groups overlap considerably
+
+
+
+
+
+
+
+```{r}
+
+```
