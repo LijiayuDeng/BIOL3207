@@ -1,0 +1,255 @@
+---
+title: "EDA Workshop"
+author: "Lijiayu Deng, u8178636"
+date: "06/03/2026"
+output:
+    html_document:
+        toc: true
+        toc_depth: 4
+        theme: cosmo
+        number_sections: false
+        toc_float: true
+        highlight: pygments
+        fig_width: 8
+        fig_height: 4
+---
+
+# **Task 1**: Loading the data
+
+```{r}
+library(tidyverse)
+data <- read_csv("raw_data/data.csv")
+data
+```
+
+### Task 1 Questions
+```{r}
+nrow(data)
+ncol(data)
+```
+
+```{r}
+data |> summarise(
+  min_steps = min(steps, na.rm = TRUE),
+  max_steps = max(steps, na.rm = TRUE),
+  all_positive = all(steps > 0, na.rm = TRUE)
+)
+
+data |> summarise(
+  min_BMI = min(BMI, na.rm = TRUE),
+  max_BMI = max(BMI, na.rm = TRUE),
+  all_positive = all(BMI > 0, na.rm = TRUE)
+)
+
+unique(data$sex)
+```
+
+When I check the data, the minimum steps is 0, which means there are some missing values in the data, probably because some gorillas were not tracked for a whole day. The BMI is all positive, which makes sense because BMI cannot be negative. The sex variable has two unique values, M and F, which makes sense.
+
+# **Task 2**: Null Hypothesis Significance Testing
+
+### Task 2 Questions
+
+- We assume that the null hypothesis is that there is no difference in the average number of steps taken between male  and female gorillas.
+
+- We can use a two-sample t-test to compare the means of the two groups
+
+```{r}
+# Calculate from the data 
+data |> 
+  group_by(sex) |> 
+  summarise(
+    n = n(),
+    mean_steps = mean(steps, na.rm = TRUE),
+    sd_steps = sd(steps, na.rm = TRUE)
+  )
+```
+
+```{r}
+t_test_result <- t.test(
+  steps ~ sex, 
+  data = data, 
+  var.equal = TRUE
+)
+t_test_result
+```
+
+```{r}
+# Calculate effect size (Cohen's d)
+male_steps <- data |> filter(sex == "male") |> pull(steps)
+female_steps <- data |> filter(sex == "female") |> pull(steps)
+
+n1 <- length(male_steps)
+n2 <- length(female_steps)
+mean1 <- mean(male_steps, na.rm = TRUE)
+mean2 <- mean(female_steps, na.rm = TRUE)
+sd1 <- sd(male_steps, na.rm = TRUE)
+sd2 <- sd(female_steps, na.rm = TRUE)
+
+pooled_sd <- sqrt(((n1-1)*sd1^2 + (n2-1)*sd2^2) / (n1 + n2 - 2))
+cohens_d <- (mean1 - mean2) / pooled_sd
+
+cohens_d
+```
+
+### Key Results
+
+- **Test used**: We use the two-sample t-test to compare the means
+- **Effect size**: 0.48 which is a medium effect size, indicating a meaningful difference between the two groups
+- **95% Confidence Interval of the difference**: [-1372.3, -928.2] steps
+- **p-value**: < 2.2e-16, which is much smaller than 0.05
+
+### Conclusions
+
+**Scientific paper:**
+A two-sample t-test revealed a statistically significant difference in daily step counts between male and female gorillas (t(1784) = -10.16, p < 0.001, Cohen's d = 0.48, 95% CI [-1372.3, -928.2]), with males walking on average 1150 more steps per day than females.
+
+**Zoo sign:**
+Male gorillas walk about 1,150 more steps per day than females — a meaningful difference supported by strong statistical evidence!
+
+
+
+> Cohen's d measures how large the difference is between two groups, in terms of standard deviations.
+> The formula is: d = (mean of group 1 - mean of group 2) / pooled standard deviation
+> A t-test only tells you **whether** a difference exists (via the p-value), but not **how big** it is. 
+Cohen's d fills that gap.
+
+> In our data:
+- Male mean: 8,205 steps
+- Female mean: 7,055 steps
+- Difference: 1,150 steps
+- Pooled SD: ~2,390 steps
+- Cohen's d = 1150 / 2390 = **0.48**
+
+> This means the two groups differ by about **half a standard deviation**.
+
+| d | Effect size |
+|---|-------------|
+| 0.2 | Small |
+| 0.5 | Medium |
+| 0.8 | Large |
+
+> A Cohen's d of 0.48 is a **medium effect** — the difference is real and meaningful, but the two groups still overlap a lot. You cannot tell whether a gorilla is male or female based on steps alone.
+
+```{r}
+ggplot(data, aes(x = sex, y = steps, fill = sex)) +
+  geom_boxplot(alpha = 0.7, outlier.colour = "red", outlier.alpha = 0.5) +
+  labs(
+    title = "Daily Step Counts in Gorillas by Sex",
+    subtitle = "Male gorillas walk significantly more steps per day than females",
+    x = "Sex",
+    y = "Daily Steps",
+    fill = "Sex",
+    caption = "Red dots indicate outliers"
+  ) +
+  scale_fill_manual(values = c("female" = "#F4A582", "male" = "#92C5DE")) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 11, colour = "grey40"),
+    legend.position = "none"
+  )
+```
+
+### What we see in the boxplot:
+- Male gorillas have a higher median.
+- Both groups have similar spread (consistent with nearly equal SDs of ~2,390)
+- The two boxes overlap, supporting the medium effect size (Cohen's d = 0.48)
+- A few red outliers are visible in both groups
+- The difference is clear but not dramatic — you cannot separate the two groups by steps alone - but the difference is statistically significant and meaningful.
+
+# **Task 3**: Exploratory Data Analysis
+
+### 3.1 Quick overview with skimr
+
+```{r}
+library(skimr)
+skim(data)
+```
+
+### Task 3 Questions
+
+```{r}
+ggplot(data, aes(x = steps)) +
+  geom_histogram(binwidth = 500, fill = "#92C5DE", alpha = 0.7) +
+  labs(
+    title = "Distribution of Daily Steps",
+    x = "Steps",
+    y = "Frequency"
+  ) +
+  theme_minimal()
+```
+
+What we see in the histogram:
+- The distribution of steps is approximately symmetric (skewness = -0.05), close to normal. The 95% CI for mean daily steps is [7,491, 7,719], which is a narrow interval due to the large sample size (n = 1,786).
+
+```{r}
+ggplot(data, aes(x = BMI)) +
+  geom_histogram(binwidth = 1, fill = "#F4A582", alpha = 0.7) +
+  labs(
+    title = "Distribution of BMI",
+    x = "BMI",
+    y = "Frequency"
+  ) +
+  theme_minimal()
+```
+
+What we see in the histogram:
+- The distribution of BMI is more symmetric and approximately normal, with most gorillas having a BMI
+
+
+```{r}
+ggplot(data, aes(x = BMI, y = steps, color = sex)) +
+  geom_point(alpha = 0.5) +
+  scale_color_manual(values = c("female" = "#F4A582", "male" = "#92C5DE")) +
+  labs(
+    title = "Relationship between BMI and Daily Steps",
+    x = "BMI",
+    y = "Steps",
+    color = "Sex"
+  ) +
+  theme_minimal()
+```
+
+
+```{r}
+# Check skewness and confidence interval of steps distribution
+library(e1071)
+
+skewness(data$steps)
+
+# 95% CI of mean steps
+t.test(data$steps)$conf.int
+```
+
+```{r}
+# Test correlation between BMI and steps by sex
+cor.test(female_steps, data |> filter(sex == "female") |> pull(BMI))
+cor.test(male_steps, data |> filter(sex == "male") |> pull(BMI))
+```
+
+### Summary of EDA Findings
+
+**Overview (skimr):**
+- 1,786 observations, 4 variables, no missing values
+- Steps range from 0 to 15,000; BMI ranges from 15 to 38.6
+
+**Distribution of steps:**
+- Approximately symmetric (skewness = -0.05), close to normal
+- Most gorillas take between 5,000 and 10,000 steps per day
+- A few individuals have 0 steps, possibly due to device not being worn
+- 95% CI for mean steps: [7,491, 7,719]
+
+**Distribution of BMI:**
+- Approximately normal, centered around 28-29
+- No extreme outliers
+
+**BMI vs Steps:**
+- Pearson's correlation shows no significant relationship between BMI and 
+steps in either females (r = 0.024, p = 0.467) or males (r = 0.038, p = 0.267)
+- BMI is not a meaningful predictor of daily step count in gorillas
+
+**Sex differences:**
+- Male gorillas walk more steps on average than females (8,205 vs 7,055)
+- This difference is statistically significant (t(1784) = -10.16, p < 0.001)
+- Effect size is medium (Cohen's d = 0.48), meaning the two groups overlap considerably

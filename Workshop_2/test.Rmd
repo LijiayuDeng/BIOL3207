@@ -1,0 +1,43 @@
+---
+title: "Test RMarkdown"
+author: "Test"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 基本计算
+
+```{r basic}
+# 简单数学运算
+x <- 1:10
+mean(x)
+sum(x)
+```
+
+## 数据框操作
+
+```{r dataframe}
+# 创建一个简单数据框
+df <- data.frame(
+  species = c("Dog", "Cat", "Bird", "Fish"),
+  weight  = c(20, 4, 0.5, 0.1),
+  legs    = c(4, 4, 2, 0)
+)
+
+df
+```
+
+## 简单绘图
+
+```{r plot}
+# 使用内置数据集绘图
+plot(cars$speed, cars$dist,
+     xlab = "Speed (mph)",
+     ylab = "Stopping Distance (ft)",
+     main = "Car Speed vs. Stopping Distance",
+     pch  = 19, col = "steelblue")
+```

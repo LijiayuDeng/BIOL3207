@@ -1,0 +1,311 @@
+---
+title: "P value workshop"
+author: "Lijiayu Deng, u8178636"
+date: "02/27/2026"
+output:
+    html_document:
+        toc: true
+        toc_depth: 4
+        theme: cosmo
+        number_sections: false
+        toc_float: true
+        highlight: pygments
+        fig_width: 8
+        fig_height: 4
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r}
+simulated_pvalues <- runif(84)
+hist(simulated_pvalues, xlim = c(0, 1))
+```
+I.1 What is the distribution of p values when the null hypothesis is true (i.e. under the null model)? Name the distribution, and use the code from the intro to generate a plot in your .Rmd file.
+
+Answer:
+p-values should follow a Uniform(0,1) distribution.
+every values should have the similar frequency, kind of flat
+
+
+
+I.2 If we can calculate this p value for each of Mendel’s experiments, what should the distribution of Mendel’s p values look like if there was no fraud?
+
+Answer:
+If there is no fraud, the p values should follw the correct null models, the frequency should be flat, looks like the uniform distribution.
+
+
+
+
+I.3 Mendel did 84 experiments. Thanks to modern genetics we have the null model for all of these. If we calculate 84 p values under these null models, and we use an alpha of 5%, how many p values do we expect to be signficant?
+
+Answer:
+```{r}
+n <- 84 * 0.05
+n
+```
+
+which means we expected the significant times should apporch 4 times(false positives)
+
+I.4 Knit your .rmd file to check that it all works.
+
+
+
+
+
+
+1.1 Figure out a function in the package that will do a Chi Square test for you.stats
+
+Answer:
+It should be the chisq.test() function.
+
+1.2 Use the help for the function you found in question 1.1 to figure out how to perform a Chi Square test with the data from Mendel’s first experiment. In other words, read the official documentation for the function. If you are struggling, try searching online for additional help in how to use the function, and/or use ChatGPT. But only after you have tried to puzzle it out from the documentation. (Hint: remember that you can put a in front of the function name in RStudio to access the help)?
+
+
+
+1.3 Write a single line of R code that does that Chi Square test using the numbers above (5474 round seeds, 1850 wrinkled seeds, expected proportion ) and assigns the output into an object named . Place that code in an R chunk with a description above it of what you’re doing.0.75exp_1
+
+Tip
+In RStudio it is very simple to make an R chunk using a keyboard shortcut:
+
+For Mac: Use Cmd + Option + I
+For Windows/Linux: Use Ctrl + Alt + I
+
+Answer:
+```{r}
+exp_1 <- chisq.test(
+  x = c(5474, 1850),
+  p = c(0.75, 0.25)
+)
+exp_1
+```
+
+
+1.4 Copy and paste questions 1.1 to 1.3 into ChatGPT, Gemini, or Claude. Did they help you?
+Yes, AI was helpful in explaining how to structure the chi-square test and 
+understand the arguments of the function.
+
+1.5 Add a line of code to your R chunk that simply says , then run this line of code. This will print out a summary of your Chi Square test. Below the summary, in a text chunk, briefly describe how you interpret the p value from this test in terms of whether or not you can reject the null hypothesis, and what that means.exp_1
+
+p = 0.6081
+p >> 0.05
+We can not reject the null hypothesis
+The data are consistent with Mendelian inheritance
+
+1.6 Write two more R chunks to print out the p value and the test statistic from the , with explanations in prose before each R chunk. (Hint the help file for the Chi Square function will tell you how to do this in the section and the section, and remember from your readings that the accessor symbol is what lets you pull individual things out of an object like the Chi Square results object you’ve made)exp_1valueexamples$
+
+```{r}
+# Extracting p value
+exp_1$p.value
+```
+
+```{r}
+# Extracting text statistics
+exp_1$statistic
+```
+
+
+1.7 Check your work: the p value you should get for this particular experiment is . If you got that p value, your code is correct! If not, go back through your work and try to figure out what went wrong, then fix it. If you’re stuck, stick up the red sticky note and see if someone on your table can help you while you wait.0.6081
+
+1.8 Knit your file then look at the html in your browser to check that everything works..rmd
+
+
+
+```{r}
+exp_1_sim <- chisq.test(
+  x = c(5474, 1850),
+  p = c(0.75, 0.25),
+  simulate.p.value = TRUE
+)
+
+exp_1_sim
+
+```
+
+Going further
+Every time I run the chunk the  p value will changes slightly, because the chunk above we did not add the "simulate.p.value = TRUE", the specific p-value was resolved by using the theoretical chi-square distribution. So it is fixed, but when we added the "simulate.p.value = TRUE", it becames the "Monte Carlo simulation", it simulates many datasets under the null hypothesis Computes chi-square statistics, Estimates the p-value as the proportion of simulated statistics ≥ observed statistic. Because simulation involves randomness, so the p-value will changes slightly each time.
+
+
+
+
+
+
+2.1 Use R studio or the internet to figure out how to read a csv file using the tidyverse. You’ll need to find the right function, then read the documentation to figure out how to use it.
+
+In tidyverse, CSV files are read using: read_csv()
+
+This function comes from the readr package, which is a part of the tidyverse.
+
+
+2.2 In a single R chunk, load the library, and then use the function you identified in question 2.1 to load the data file you downloaded, assign it in an object called , and then include a final line which just says . Before this R chunk, briefly note what the code in the chunk does.tidyversemendel_datamendel_data
+
+```{r}
+library(tidyverse)
+
+mendel_data <- read_csv("raw_data/data.csv")
+mendel_data
+
+```
+It should have 84 rows and 7 columns.
+
+
+
+2.3 Run your R chunk. If you have done steps 2.1-2.3 right, you should see that you have a tibble, and the first 10 rows should be displayed along with some other information. Check that the object has the number of rows you expect (how many is that?), and the columns you expect (what columns do you expect?). Briefly note down the results of these sanity checks.mendel_data
+
+Sanity checks were performed to ensure data quality.
+
+The dataset has 84 rows and 7 columns.
+For all experiments, n = n1 + n2.
+All expected proportions (p0) are between 0 and 1.
+
+No errors
+
+```{r}
+nrow(mendel_data)
+ncol(mendel_data)
+colnames(mendel_data)
+```
+
+
+Going further
+You should always do as many sanity checks on the data as possible. People are fallible, and there are often data entry errors. How can you use the three key columns (, , ) to do a sanity check on this data? Do the sanity check. Do you see any errors? If so, what’s the error and can you figure out what went wrong?nn1n2
+
+
+
+
+
+
+3.1 Describe the code above in your R markdown file, and then put it in an R chunk and run it.
+
+This code uses rowwise() to do a chi-square test on each row
+of the dataset and adds a new column called chisq_stat which means
+the chi-square test statistic.
+
+
+```{r}
+mendel_data <- mendel_data %>%
+  rowwise() %>%
+  mutate(chisq_stat = chisq.test(c(n1, n2),
+                                 p = c(p0, 1 - p0))$statistic)
+
+mendel_data
+
+```
+
+
+
+3.2 Modify the code above to repeat this procedure but adding the p value from the Chi Square test instead of the test statistic. Call this new column . (Hint: you only need to change a very small bit of the code to do this). Put this code in an R chunk, with a description before the R chunk of what the code is doing.chisq_pvalue
+
+This code repeats the rowwise chi-square test but extracts the
+p-value instead of the test statistic. The new column is called chisq_pvalue.
+```{r}
+mendel_data <- mendel_data %>%
+  rowwise() %>%
+  mutate(chisq_pvalue = chisq.test(c(n1, n2),
+                                   p = c(p0, 1 - p0))$p.value)
+
+mendel_data
+```
+
+
+3.3 Check your work. The first five p values in your new should be: 0.608, 0.903, 0.532, 0.801, 0.502. Did you get these values? If so, great! If not, go back and check through your work and try to figure out what went wrong.chisq_pvalue
+```{r}
+head(mendel_data$chisq_pvalue, 5)
+
+```
+
+
+3.4 Knit your .rmd file to check that everything works.
+
+
+
+
+
+
+4.1 Use base R to plot a histogram of the p values you calculated. This is the quick way! (Hint - you can access the p values from your tibble using the accessor …)mendel_data$
+
+```{r}
+hist(mendel_data$chisq_pvalue,
+     xlim = c(0, 1))
+
+```
+
+
+4.2 Now let’s try a plot with ggplot. There’s an example of some code below. This code could be used for the example I used in the lecture (where I calculated 10,000 p values under the null distribution). So, it’s not exactly what you want, but it’s still good to practice working from examples that are near to what you want. The code below:ggplot
+
+passes a tibble in as the dataresults_tibble
+in the (for aesthetics) it tells ggplot what to use on the axesaes()
+adds layers to the plot with each symbol+
+Put this code in an R chunk of your own, then work on modifying it to work on your object. You might need to read the help documentation ( in RStudio) or google around a bit to figure this out. You may also need to play around with some of the settings, and with the title and subtitles of course! One thing to try specifically is to find the best number of bins for your data…mendel_data?ggplot
+
+ggplot(results_tibble, aes(x = p_value)) +
+    geom_histogram(bins = 100) +
+    xlim(0,1) +
+    ggtitle("P values when the null hypothesis is true",
+            subtitle = "10,000 P values calculated from identically distributed data using cor.test() \n The data show that the distribution is approximately uniform") +
+    xlab("P value") +
+    ylab("Count") +
+    theme_minimal()
+
+
+```{r}
+ggplot(mendel_data, aes(x = chisq_pvalue)) +
+  geom_histogram(bins = 30) +
+  xlim(0,1) +
+  ggtitle("Distribution of Mendel's P values",
+          subtitle = "84 chi-square tests from Mendel's experiments") +
+  xlab("P value") +
+  ylab("Count") +
+  theme_minimal()
+
+```
+
+
+
+4.3 Write the ‘Conclusions’ section of your ‘.Rmd’ file. Use everything you’ve done to answer the following questions:
+
+Is there any evidence of fraud in Mendel’s data?
+If there’s evidence, what is it and how strong is it?
+What does the distribution of p values tell you about Mendel’s count data relative to the null expectations?
+How could this have occurred? Must it have been intentional wrongdoing?
+
+The histogram of Mendel’s 84 p-values doesn't sound like the uniform distribution.
+The p-values tend to be larger than expected under the null hypothesis.
+
+If the null hypothesis were true and there was no bias, the p-values should follow
+a Uniform(0,1) distribution. However, the observed p value looks like more
+bigger, which means Mendel’s results were closer to the
+expected ratios than would typically occur by random variation alone.
+
+This situation may indicate that the data has been manipulated
+However, this does not prove the data fraud. May be include unconscious bias, selective reporting, or data adjustment during collection.
+
+Overall, the evidence suggests that Mendel’s data are unusually consistent with the expected genetic ratios, Perhaps it wasn't intentional.
+
+
+
+
+
+
+
+4.4 Knit your .rmd file to check everything works.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

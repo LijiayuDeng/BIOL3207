@@ -1,0 +1,174 @@
+---
+
+## Markdown 基础语法
+
+### 文本格式
+
+**粗体** — `**粗体**` 或 `__粗体__`
+
+*斜体* — `*斜体*` 或 `_斜体_`
+
+~~删除线~~ — `~~删除线~~`
+
+`代码` — 用反引号 `` `代码` ``
+
+### 列表
+
+有序列表：
+1. 第一项
+2. 第二项
+3. 第三项
+
+无序列表：
+- 项目 A
+- 项目 B
+  - 子项目 B1
+  - 子项目 B2
+
+### 链接和图片
+
+[点击这里](https://www.google.com)
+
+![alt text](https://via.placeholder.com/100)
+
+### 引用
+
+> 这是一个引用块
+> 支持多行
+
+---
+
+## LaTeX 数学公式
+
+### 行内公式
+
+一个简单的公式：$y = mx + b$，其中 $m$ 是斜率。
+
+### 独立公式（displaymath）
+
+$$
+\mu = \frac{1}{N} \sum_{i=1}^{N} x_i
+$$
+
+$$
+f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)
+$$
+
+### 常用符号
+
+$$
+\alpha, \beta, \gamma, \delta, \epsilon, \pi, \sigma, \theta, \lambda
+$$
+
+分数：$\frac{a}{b}$，上标 $x^2$，下标 $x_i$
+
+根号：$\sqrt{x}$，$\sqrt[n]{x}$
+
+### 矩阵
+
+$$
+\begin{pmatrix}
+a & b \\
+c & d
+\end{pmatrix}
+$$
+
+### 求和和积分
+
+$$
+\sum_{i=1}^{n} x_i \quad \text{和} \quad \int_{a}^{b} f(x) dx
+$$
+
+---
+
+## Quarto 特有语法
+
+### 代码块选项
+
+```{r}
+#| label: example
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+#| fig-width: 8
+#| fig-height: 5
+#| fig-cap: "这是一个图表标题"
+
+# 代码会执行，图会显示
+plot(1:10, main = "简单线图")
+```
+
+### 表格
+
+| 列1 | 列2 | 列3 |
+|-----|-----|-----|
+| A   | B   | C   |
+| 1   | 2   | 3   |
+| x   | y   | z   |
+
+### Callout Blocks（信息框）
+
+::: {.callout-note}
+这是一个注意事项
+:::
+
+::: {.callout-warning}
+这是一个警告
+:::
+
+::: {.callout-tip}
+这是一个提示
+:::
+
+---
+
+## 基本计算: "Test"
+date: today
+format: html
+output: html_notebook
+---
+
+## 基本计算
+
+```{r}
+#| label: basic
+
+# 简单数学运算
+x <- 1:10
+mean(x)
+sum(x)
+```
+
+## 数据框操作
+
+```{r}
+#| label: dataframe
+
+# 创建一个简单数据框
+df <- data.frame(
+  species = c("Dog", "Cat", "Bird", "Fish"),
+  weight  = c(20, 4, 0.5, 0.1),
+  legs    = c(4, 4, 2, 0)
+)
+
+df
+```
+
+## 简单绘图
+
+```{r}
+#| label: plot
+#| fig-cap: "Car Speed vs. Stopping Distance"
+
+# 使用内置数据集绘图
+plot(cars$speed, cars$dist,
+     xlab = "Speed (mph)",
+     ylab = "Stopping Distance (ft)",
+     main = "Car Speed vs. Stopping Distance",
+     pch  = 19, col = "steelblue")
+```
+
+
+
+

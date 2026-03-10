@@ -1,0 +1,85 @@
+Type of Experiment,Experiment ID,Trait,n,n1,n2,p0
+Single trait F2,1,A,7324,5474,1850,0.75
+Single trait F2,2,B,8023,6022,2001,0.75
+Single trait F2,3,C,929,705,224,0.75
+Single trait F2,4,D,1181,882,299,0.75
+Single trait F2,5,E,580,428,152,0.75
+Single trait F2,6,F,858,651,207,0.75
+Single trait F2,7,G,1064,787,277,0.75
+Illustrations of plant variation F2,8,A,57,45,12,0.75
+Illustrations of plant variation F2,9,A,35,27,8,0.75
+Illustrations of plant variation F2,10,A,31,24,7,0.75
+Illustrations of plant variation F2,11,A,29,19,10,0.75
+Illustrations of plant variation F2,12,A,43,32,11,0.75
+Illustrations of plant variation F2,13,A,32,26,6,0.75
+Illustrations of plant variation F2,14,A,112,88,24,0.75
+Illustrations of plant variation F2,15,A,32,22,10,0.75
+Illustrations of plant variation F2,16,A,34,28,6,0.75
+Illustrations of plant variation F2,17,A,32,25,7,0.75
+Illustrations of plant variation F2,18,B,36,25,11,0.75
+Illustrations of plant variation F2,19,B,39,32,7,0.75
+Illustrations of plant variation F2,20,B,19,14,5,0.75
+Illustrations of plant variation F2,21,B,97,70,27,0.75
+Illustrations of plant variation F2,22,B,37,24,13,0.75
+Illustrations of plant variation F2,23,B,26,20,6,0.75
+Illustrations of plant variation F2,24,B,45,32,13,0.75
+Illustrations of plant variation F2,25,B,53,44,9,0.75
+Illustrations of plant variation F2,26,B,64,50,14,0.75
+Illustrations of plant variation F2,27,B,62,44,18,0.75
+Bifactorial experiment F2,28,A,556,423,133,0.75
+Bifactorial experiment F2,29,"B among ""A""",423,315,108,0.75
+Bifactorial experiment F2,30,"B among ""a""",133,101,32,0.75
+Bifactorial experiment F2,31,A,639,480,159,0.75
+Bifactorial experiment F2,32,"B among ""A""",480,367,113,0.75
+Bifactorial experiment F2,33,"B among ""a""",159,122,37,0.75
+Bifactorial experiment F2,34,C among AaBb,175,127,48,0.75
+Bifactorial experiment F2,35,C among AaBB,70,52,18,0.75
+Bifactorial experiment F2,36,C among AABb,78,60,18,0.75
+Bifactorial experiment F2,37,C among AABB,44,30,14,0.75
+Bifactorial experiment F2,38,C among Aabb,76,60,16,0.75
+Bifactorial experiment F2,39,C among AAbb,37,26,11,0.75
+Bifactorial experiment F2,40,C among aaBb,79,55,24,0.75
+Bifactorial experiment F2,41,C among aaBB,43,33,10,0.75
+Bifactorial experiment F2,42,C among aabb,37,30,7,0.75
+Single trait F3,43,A,565,372,193,0.66
+Single trait F3,44,B,519,353,166,0.66
+Single trait F3,45,C,100,64,36,0.66
+Single trait F3,46,D,100,71,29,0.66
+Single trait F3,47,E,100,60,40,0.66
+Single trait F3,48,F,100,67,33,0.66
+Single trait F3,49,G,100,72,28,0.66
+Single trait F3,50,E,100,65,35,0.66
+Bifactorial experiment F3,51,"A among ""AB""",301,198,103,0.66
+Bifactorial experiment F3,52,"A among ""Ab""",102,67,35,0.66
+Bifactorial experiment F3,53,"B among ""aB""",96,68,28,0.66
+Bifactorial experiment F3,54,"B among Aa""B""",198,138,60,0.66
+Bifactorial experiment F3,55,"B among AA""B""",103,65,38,0.66
+Trifactorial experiment F3,56,"A among ""AB""",3670,245,122,0.66
+Trifactorial experiment F3,57,"A among 'Ab""",113,76,37,0.66
+Trifactorial experiment F3,58,"B among ""aB""",122,79,43,0.66
+Trifactorial experiment F3,59,"B among Aa""B""",245,175,70,0.66
+Trifactorial experiment F3,60,"B among AA""B""",122,78,44,0.66
+Trifactorial experiment F3,61,C among AaBb,127,78,49,0.66
+Trifactorial experiment F3,62,C among AaBB,52,38,14,0.66
+Trifactorial experiment F3,63,C among AABb,60,45,15,0.66
+Trifactorial experiment F3,64,C among AABB,30,22,8,0.66
+Trifactorial experiment F3,65,C among Aabb,60,40,20,0.66
+Trifactorial experiment F3,66,C among AAbb,26,17,9,0.66
+Trifactorial experiment F3,67,C among aaBb,55,36,19,0.66
+Trifactorial experiment F3,68,C among aaBB,33,25,8,0.66
+Trifactorial experiment F3,69,C among aabb,30,20,10,0.66
+Gametic ratios,70,A,90,43,47,0.5
+Gametic ratios,71,B among AA,43,20,23,0.5
+Gametic ratios,72,B among Aa,47,25,22,0.5
+Gametic ratios,73,A,110,57,53,0.5
+Gametic ratios,74,B among Aa,57,31,26,0.5
+Gametic ratios,75,B among aa,53,27,26,0.5
+Gametic ratios,76,A,87,44,43,0.5
+Gametic ratios,77,B among AA,44,25,19,0.5
+Gametic ratios,78,B among Aa,43,22,21,0.5
+Gametic ratios,79,A,98,49,49,0.5
+Gametic ratios,80,B among Aa,49,24,25,0.5
+Gametic ratios,81,B among aa,49,22,27,0.5
+Gametic ratios,82,G,166,87,79,0.5
+Gametic ratios,83,C among Gg,87,47,40,0.5
+Gametic ratios,84,C among gg,79,38,41,0.5
